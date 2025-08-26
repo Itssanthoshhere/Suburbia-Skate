@@ -32,6 +32,8 @@ export function ParallaxImage({
                 <PrismicNextImage
                     field={foregroundImage}
                     alt=""
+                    imgixParams={{ height: 600 }}
+                    className="h-full max-h-[500px] w-auto"
                 />
             </div>
         </div>
