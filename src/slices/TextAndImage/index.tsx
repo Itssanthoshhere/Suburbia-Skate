@@ -11,6 +11,12 @@ import { ButtonLink } from "@/components/ButtonLink";
 import { Heading } from "@/components/Heading";
 import { ParallaxImage } from "./ParallaxImage";
 
+declare module "react" {
+  interface CSSProperties {
+    "--index"?: number;
+  }
+}
+
 /**
  * Props for `TextAndImage`.
  */
@@ -32,6 +38,7 @@ const TextAndImage = ({ slice, index }: TextAndImageProps): JSX.Element => {
         theme === "Navy" && "bg-texture bg-brand-navy text-white",
         theme === "Lime" && "bg-texture bg-brand-lime"
       )}
+      style={{ "--index": index }}
     >
       <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2 md:gap-24">
         <div
@@ -55,7 +62,7 @@ const TextAndImage = ({ slice, index }: TextAndImageProps): JSX.Element => {
             {slice.primary.button.text}
           </ButtonLink>
         </div>
-        
+
         <ParallaxImage
           foregroundImage={slice.primary.foreground_image}
           backgroundImage={slice.primary.background_image}
