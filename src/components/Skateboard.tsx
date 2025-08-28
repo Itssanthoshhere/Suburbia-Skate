@@ -7,7 +7,15 @@ import React, { useMemo, useRef } from 'react'
 import { useGLTF, useTexture } from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
 
-type SkateboardProps = {};
+type SkateboardProps = {
+    wheelTextureURLs: string[];
+    wheelTextureURL: string;
+    deckTextureURLs: string[];
+    deckTextureURL: string;
+    truckColor: string;
+    boltColor: string;
+    constantWheelSpin?: boolean;
+};
 
 type GLTFResult = GLTF & {
     nodes: {
@@ -25,8 +33,40 @@ type GLTFResult = GLTF & {
     materials: {}
 }
 
-export function Skateboard(props: SkateboardProps) {
-    const { nodes } = useGLTF('/skateboard.gltf') as unknown as GLTFResult
+export function Skateboard({
+    wheelTextureURL,
+    wheelTextureURLs,
+    deckTextureURL,
+    deckTextureURLs,
+    truckColor,
+    boltColor,
+    constantWheelSpin = false,
+}: SkateboardProps) {
+
+    const { nodes } = useGLTF("/skateboard.gltf") as unknown as GLTFResult;
+
+    // Wheel Textures
+    const wheelTextures = useTexture(wheelTextureURLs);
+    wheelTextures.forEach((texture) => {
+        texture.flipY = false;
+        texture.colorSpace = THREE.SRGBColorSpace;
+    });
+    const wheelTextureIndex = wheelTextureURLs.findIndex(
+        (url) => url === wheelTextureURL
+    );
+    const wheelTexture = wheelTextures[wheelTextureIndex];
+
+
+    // Deck Textures
+    const deckTextures = useTexture(deckTextureURLs);
+    deckTextures.forEach((texture) => {
+        texture.flipY = false;
+        texture.colorSpace = THREE.SRGBColorSpace;
+    });
+    const deckTextureIndex = deckTextureURLs.findIndex(
+        (url) => url === deckTextureURL
+    );
+    const deckTexture = deckTextures[deckTextureIndex];
 
     const gripTapeDiffuse = useTexture("/skateboard/griptape-diffuse.webp");
     const gripTapeRoughness = useTexture("/skateboard/griptape-roughness.webp");
@@ -59,8 +99,6 @@ export function Skateboard(props: SkateboardProps) {
     }, [gripTapeDiffuse, gripTapeRoughness]);
 
 
-    const boltColor = "#555555";
-
     const boltMaterial = useMemo(
         () =>
             new THREE.MeshStandardMaterial({
@@ -71,15 +109,12 @@ export function Skateboard(props: SkateboardProps) {
         [boltColor]
     );
 
-
-
     const metalNormal = useTexture("/skateboard/metal-normal.avif");
     metalNormal.wrapS = THREE.RepeatWrapping;
     metalNormal.wrapT = THREE.RepeatWrapping;
     metalNormal.anisotropy = 8;
     metalNormal.repeat.set(8, 8);
 
-    const truckColor = "#555555";
 
     const truckMaterial = useMemo(
         () =>
@@ -93,10 +128,6 @@ export function Skateboard(props: SkateboardProps) {
         [truckColor, metalNormal]
     );
 
-
-    const wheelTexture = useTexture("/skateboard/SkateWheel1.png");
-    wheelTexture.flipY = false;
-
     const wheelMaterial = useMemo(
         () =>
             new THREE.MeshStandardMaterial({
@@ -105,10 +136,6 @@ export function Skateboard(props: SkateboardProps) {
             }),
         [wheelTexture]
     );
-
-
-    const deckTexture = useTexture("/skateboard/Deck.webp");
-    deckTexture.flipY = false;
 
     const deckMaterial = useMemo(
         () =>
@@ -119,9 +146,8 @@ export function Skateboard(props: SkateboardProps) {
         [deckTexture]
     );
 
-
     return (
-        <group {...props} dispose={null}>
+        <group dispose={null}>
             <group name="Scene">
                 <mesh
                     name="GripTape"
