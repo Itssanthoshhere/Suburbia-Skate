@@ -54,8 +54,9 @@ function Scene({
         event.stopPropagation();
 
         const board = containerRef.current;
+        const origin = originRef.current;
 
-        if (!board) return;
+        if (!board || !origin) return;
 
         const { name } = event.object;
 
@@ -64,6 +65,8 @@ function Scene({
             ollie(board);
         } else if (name === "middle") {
             kickflip(board);
+        } else if (name === "front") {
+            frontside360(board, origin);
         }
     }
 
@@ -95,6 +98,26 @@ function Scene({
                 0.3
             )
             .to(board.rotation, { x: 0, duration: 0.12, ease: "none" });
+    }
+
+
+    function frontside360(board: THREE.Group, origin: THREE.Group) {
+        jumpBoard(board);
+
+        gsap
+            .timeline()
+            .to(board.rotation, { x: -0.6, duration: 0.26, ease: "none" })
+            .to(board.rotation, { x: 0.4, duration: 0.82, ease: "power2.in" })
+            .to(
+                origin.rotation,
+                {
+                    y: `+=${Math.PI * 2}`,
+                    duration: 0.77,
+                    ease: "none",
+                },
+                0.3
+            )
+            .to(board.rotation, { x: 0, duration: 0.14, ease: "none" });
     }
 
 
