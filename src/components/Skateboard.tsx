@@ -93,6 +93,17 @@ export function Skateboard(props: SkateboardProps) {
         [truckColor, metalNormal]
     );
 
+    const deckTexture = useTexture("/skateboard/Deck.webp");
+
+    const deckMaterial = useMemo(
+        () =>
+            new THREE.MeshStandardMaterial({
+                map: deckTexture,
+                roughness: 0.1,
+            }),
+        [deckTexture]
+    );
+
 
     return (
         <group {...props} dispose={null}>
@@ -126,7 +137,7 @@ export function Skateboard(props: SkateboardProps) {
                     castShadow
                     receiveShadow
                     geometry={nodes.Deck.geometry}
-                    material={nodes.Deck.material}
+                    material={deckMaterial}
                     position={[0, 0.271, -0.002]}
                 />
                 <mesh
