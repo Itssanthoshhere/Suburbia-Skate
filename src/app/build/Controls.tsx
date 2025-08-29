@@ -35,6 +35,21 @@ export default function Controls({ wheels, decks, metals, className }: Props) {
         selectedWheel,
     } = useCustomizerControls();
 
+    useEffect(() => {
+        const url = new URL(window.location.href);
+
+        if (isFilled.keyText(selectedWheel?.uid))
+            url.searchParams.set("wheel", selectedWheel.uid);
+        if (isFilled.keyText(selectedDeck?.uid))
+            url.searchParams.set("deck", selectedDeck.uid);
+        if (isFilled.keyText(selectedTruck?.uid))
+            url.searchParams.set("truck", selectedTruck.uid);
+        if (isFilled.keyText(selectedBolt?.uid))
+            url.searchParams.set("bolt", selectedBolt.uid);
+
+        router.replace(url.href);
+    }, [router, selectedWheel, selectedDeck, selectedTruck, selectedBolt]);
+
     return (
         <div className={clsx("flex flex-col gap-6", className)}>
             <Options title="Deck" selectedName={selectedDeck?.uid}>
