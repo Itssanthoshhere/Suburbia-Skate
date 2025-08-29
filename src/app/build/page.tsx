@@ -6,6 +6,8 @@ import React from "react";
 
 import { CustomizerControlsProvider } from "./Context";
 import { createClient } from "@/prismicio";
+import Preview from "./Preview";
+import { asImageSrc } from "@prismicio/client";
 
 
 type Props = {}
@@ -20,6 +22,14 @@ export default async function Page() {
     const defaultTruck = metals[0];
     const defaultBolt = metals[0];
 
+
+    const wheelTextureURLs = wheels
+        .map((texture) => asImageSrc(texture.texture))
+        .filter((url): url is string => Boolean(url));
+    const deckTextureURLs = decks
+        .map((texture) => asImageSrc(texture.texture))
+        .filter((url): url is string => Boolean(url));
+
     return (
         <div className="flex flex-col min-h-screen lg:flex-row">
             <CustomizerControlsProvider
@@ -30,7 +40,10 @@ export default async function Page() {
             >
                 <div className="relative aspect-square shrink-0 bg-[#3a414a] lg:aspect-auto lg:grow">
                     <div className="absolute inset-0">
-
+                        <Preview
+                            deckTextureURLs={deckTextureURLs}
+                            wheelTextureURLs={wheelTextureURLs}
+                        />
                     </div>
 
                     <Link href="/" className="absolute left-6 top-6">
