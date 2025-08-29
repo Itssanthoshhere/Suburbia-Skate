@@ -26,6 +26,7 @@ type Props = {
 };
 
 export default function Preview({ wheelTextureURLs, deckTextureURLs }: Props) {
+    const cameraControls = useRef<CameraControls>(null);
 
     const { selectedWheel, selectedBolt, selectedDeck, selectedTruck } =
         useCustomizerControls();
@@ -41,6 +42,11 @@ export default function Preview({ wheelTextureURLs, deckTextureURLs }: Props) {
     return (
         <Canvas>
             <Suspense fallback={null}>
+                <Environment
+                    files={"/hdr/warehouse-512.hdr"}
+                    environmentIntensity={0.6}
+                />
+            
                 <Skateboard
                     wheelTextureURLs={wheelTextureURLs}
                     wheelTextureURL={wheelTexureURL}
@@ -51,9 +57,11 @@ export default function Preview({ wheelTextureURLs, deckTextureURLs }: Props) {
                     pose="side"
                 />
 
-                <Preload all />
+              
             </Suspense>
+            <Preload all />
         </Canvas>
     );
 }
+
 
