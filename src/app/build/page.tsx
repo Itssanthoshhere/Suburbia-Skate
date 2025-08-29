@@ -8,6 +8,7 @@ import { CustomizerControlsProvider } from "./Context";
 import { createClient } from "@/prismicio";
 import Preview from "./Preview";
 import { asImageSrc } from "@prismicio/client";
+import Controls from "./Controls";
 
 
 type Props = {}
@@ -54,7 +55,12 @@ export default async function Page() {
                     <Heading as="h1" size="sm" className="mt-0 mb-6">
                         Build your board
                     </Heading>
-
+                    <Controls
+                        wheels={wheels}
+                        decks={decks}
+                        metals={metals}
+                        className="mb-6"
+                    />
                     <ButtonLink href="" color="lime" icon="plus">
                         Add to cart
                     </ButtonLink>
