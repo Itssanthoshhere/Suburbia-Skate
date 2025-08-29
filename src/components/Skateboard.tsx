@@ -32,9 +32,9 @@ type GLTFResult = GLTF & {
         Baseplates: THREE.Mesh
         Truck1: THREE.Mesh
         Truck2: THREE.Mesh
-    }
-    materials: {}
-}
+    };
+    materials: object;
+};
 
 export function Skateboard({
     wheelTextureURL,
