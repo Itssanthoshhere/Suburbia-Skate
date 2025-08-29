@@ -38,21 +38,22 @@ export default function Preview({ wheelTextureURLs, deckTextureURLs }: Props) {
     const boltColor = selectedBolt?.color ?? DEFAULT_BOLT_COLOR;
 
 
-    return
-    <Canvas>
-        <Suspense fallback={null}>
-            <Skateboard
-                wheelTextureURLs={wheelTextureURLs}
-                wheelTextureURL={wheelTexureURL}
-                deckTextureURLs={deckTextureURLs}
-                deckTextureURL={deckTexureURL}
-                truckColor={truckColor}
-                boltColor={boltColor}
-                pose="side"
-            />
+    return (
+        <Canvas>
+            <Suspense fallback={null}>
+                <Skateboard
+                    wheelTextureURLs={wheelTextureURLs}
+                    wheelTextureURL={wheelTexureURL}
+                    deckTextureURLs={deckTextureURLs}
+                    deckTextureURL={deckTexureURL}
+                    truckColor={truckColor}
+                    boltColor={boltColor}
+                    pose="side"
+                />
 
-            <Preload all />
-        </Suspense>
-    </Canvas>
+                <Preload all />
+            </Suspense>
+        </Canvas>
+    );
 }
 
